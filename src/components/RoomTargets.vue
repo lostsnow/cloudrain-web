@@ -2,7 +2,7 @@
   <div class="root">
     <div class="banner">{{ $t("map.room.target") }}</div>
     <div class="targets-list" @click="handleClick">
-      <Target
+      <TargetItem
         v-for="obj in sortedRoomObjects"
         :key="obj.uuid"
         :uuid="obj.uuid"
@@ -19,12 +19,12 @@
 
 <script>
 import { mapState } from "vuex";
-import Target from "@/components/Target";
+import TargetItem from "@/components/TargetItem";
 
 export default {
   name: "RoomTargets",
   components: {
-    Target,
+    TargetItem,
   },
   computed: {
     ...mapState(["roomObjects"]),

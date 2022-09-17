@@ -4,7 +4,7 @@
       <div class="progressing">Progressing.......</div>
     </div>
     <div class="container-wrapper" v-if="!isLogged && showLoginBox">
-      <Login />
+      <LoginForm />
     </div>
     <div class="container-wrapper" v-if="isLogged">
       <div class="container-left">
@@ -15,12 +15,12 @@
           <InputBox />
         </div>
         <div class="container-bars">
-          <Vitals />
+          <CharVitals />
         </div>
       </div>
       <div class="container-right" :style="{ display: rightSidebar }">
         <div class="container-minimap">
-          <Minimap />
+          <MiniMap />
         </div>
         <div class="container-targets">
           <RoomTargets />
@@ -36,10 +36,10 @@
 <script>
 import { mapState } from "vuex";
 import MainText from "@/components/MainText";
-import Login from "@/components/Login";
+import LoginForm from "@/components/LoginForm";
 import InputBox from "@/components/InputBox";
-import Vitals from "@/components/Vitals";
-import Minimap from "@/components/Minimap";
+import CharVitals from "@/components/CharVitals";
+import MiniMap from "@/components/MiniMap";
 import RoomTargets from "@/components/RoomTargets";
 import StatusBar from "@/components/StatusBar";
 import { SendGMCP } from "./gmcp";
@@ -48,10 +48,10 @@ export default {
   name: "App",
   components: {
     MainText,
-    Login,
+    LoginForm,
     InputBox,
-    Vitals,
-    Minimap,
+    CharVitals,
+    MiniMap,
     RoomTargets,
     StatusBar,
   },

@@ -55,7 +55,7 @@
 
 <script>
 export default {
-  name: "Vitals",
+  name: "CharVitals",
   methods: {
     handleMouseOver: function (e) {
       const textSibling = e.target.parentNode.querySelector(".text");

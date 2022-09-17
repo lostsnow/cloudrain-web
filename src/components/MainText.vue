@@ -60,7 +60,7 @@ export default {
       const term = new Terminal({
         fontFamily: "'Noto Sans Mono CJK SC', 'PingFang SC', 'STHeitiSC-Light', SimHei, NSimSun, monospace",
         lineHeight: 1,
-        rendererType: "dom",
+        allowProposedApi: true,
       });
 
       if (this.$store.state.settings.useAmbiguousReplace) {

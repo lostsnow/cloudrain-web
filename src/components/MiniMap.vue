@@ -18,7 +18,7 @@ import * as PIXI from "pixi.js";
 import { ease } from "pixi-ease";
 
 export default {
-  name: "Minimap",
+  name: "MiniMap",
   data: () => {
     return {
       gridSize: 20,

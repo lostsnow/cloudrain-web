@@ -43,7 +43,7 @@ const OBJECT_TYPE_ITEM = 2;
 import { mapState } from "vuex";
 
 export default {
-  name: "Target",
+  name: "TargetItem",
   props: [
     "uuid",
     "name",
