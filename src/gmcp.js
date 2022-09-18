@@ -1,10 +1,8 @@
-import { store } from './store'
-
 const CorePing = 'Core.Ping';
 const CharRegister = 'Char.Register';
 const CharLogin = 'Char.Login';
 
-export function ParseGMCP(msg) {
+export function ParseGMCP(store, msg) {
   try {
     if (!msg) {
       return;
@@ -59,7 +57,7 @@ export function ParseGMCP(msg) {
   }
 }
 
-export function SendGMCPString(key, payload) {
+export function SendGMCPString(store, key, payload) {
   let cmd = `${key}`
   if (typeof payload !== "undefined" || payload === "") {
     cmd += ` ${payload}`
@@ -70,10 +68,10 @@ export function SendGMCPString(key, payload) {
   });
 }
 
-export function SendGMCP(key, payload) {
+export function SendGMCP(store, key, payload) {
   let p = "";
   if (typeof payload !== "undefined") {
     p = JSON.stringify(payload);
   }
-  SendGMCPString(key, p);
+  SendGMCPString(store, key, p);
 }

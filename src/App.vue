@@ -1,13 +1,16 @@
 <template>
   <div id="app">
-    <div class="container-wrapper" v-if="!isLogged && !showLoginBox">
-      <div class="progressing">Progressing.......</div>
-    </div>
-    <div class="container-wrapper" v-if="!isLogged && showLoginBox">
-      <LoginForm />
-    </div>
-    <div class="container-wrapper" v-if="isLogged">
-      <div class="container-left">
+    <div class="container-wrapper">
+      <div v-if="!isLogged && !showLoginBox" class="progressing">
+        <p v-if="!reconnectError">Progressing.......<br/></p>
+        <p v-if="connectFailedMessage && reconnectTimes > 0" class="connect-failed">{{ connectFailedMessage }}</p>
+        <p v-if="connectFailedMessage && reconnectTimes > 0 && !reconnectError">Reconnecting {{ reconnectTimes }} time(s)......</p>
+        <p v-if="connectFailedMessage && reconnectError" class="connect-failed">Connect failed, please contact the wizard</p>
+      </div>
+
+      <LoginForm v-if="!isLogged && showLoginBox" />
+
+      <div v-if="isLogged" class="container-left">
         <div class="container-maintext">
           <MainText :windowWidth="windowWidth" :windowHeight="windowHeight" />
         </div>
@@ -18,7 +21,7 @@
           <CharVitals />
         </div>
       </div>
-      <div class="container-right" :style="{ display: rightSidebar }">
+      <div v-if="isLogged" class="container-right" :style="{ display: rightSidebar }">
         <div class="container-minimap">
           <MiniMap />
         </div>
@@ -27,7 +30,7 @@
         </div>
       </div>
     </div>
-    <div class="status-bar-container" v-if="isLogged">
+    <div v-if="isLogged" class="status-bar-container">
       <StatusBar />
     </div>
   </div>
@@ -66,6 +69,9 @@ export default {
     ...mapState([
       "allowGlobalHotkeys",
       "isConnected",
+      "connectFailedMessage",
+      "reconnectTimes",
+      "reconnectError",
       "gmcpOK",
       "isLogged",
       "loginTokenLoaded",
@@ -92,13 +98,14 @@ export default {
       }
       console.log("connected, ping for gmcp");
       this.ping(1000);
+      this.$store.commit("INIT_LOGIN");
     },
     gmcpOK: function (ok) {
       if (ok && !this.$store.state.isLogged) {
         let token = this.$store.state.autoLoginToken;
         if (token.id != "" && token.token != "") {
           console.log("login by local token");
-          SendGMCP("Char.Login", token);
+          SendGMCP(this.$store, "Char.Login", token);
           clearInterval(this.pingInterval);
           this.ping(10000);
         }
@@ -152,7 +159,7 @@ export default {
           moveCommand = "go down";
           break;
         case "enter":
-          this.$store.dispatch("setForceInputFocus", { forced: true });
+        this.$store.dispatch("setForceInputFocus", { forced: true });
           break;
       }
 
@@ -170,7 +177,7 @@ export default {
           if (!this.$store.state.gmcpOK) {
             console.log("gmcp init Core.Ping");
           }
-          SendGMCP("Core.Ping");
+          SendGMCP(this.$store, "Core.Ping");
         }.bind(this),
         interval
       );
@@ -183,7 +190,7 @@ export default {
 
     window.addEventListener("keyup", this.onKeyUp);
 
-    this.$store.commit("INIT_LOGIN");
+    this.$store.commit("CONNECT");
   },
   unmounted() {
     window.removeEventListener("resize", this.onWindowResize);
@@ -247,6 +254,14 @@ body {
 
     .progressing {
       font-size: 22px;
+
+      p {
+        margin: 0;
+      }
+
+      .connect-failed {
+        color: red;
+      }
     }
 
     .container-left {

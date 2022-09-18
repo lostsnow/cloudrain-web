@@ -1,4 +1,3 @@
-
 <template>
   <div class="root">
     <div class="login-container" ref="mainLoginContainer">
@@ -160,16 +159,19 @@ export default {
     request(payload) {
       this.loginInterval = setInterval(
         function () {
-          if (!this.$store.state.gmcpOK || this.$store.state.isLogged) {
+          if (!this.$store.state.gmcpOK) {
             console.log("waiting gmcp...");
+            return;
+          }
+          if (this.$store.state.isLogged) {
             return;
           }
           if (!this.isRegister) {
             console.log("login by password");
-            SendGMCP("Char.Login", payload);
+            SendGMCP(this.$store, "Char.Login", payload);
           } else {
             console.log("register new user");
-            SendGMCP("Char.Register", payload);
+            SendGMCP(this.$store, "Char.Register", payload);
           }
         }.bind(this),
         1000

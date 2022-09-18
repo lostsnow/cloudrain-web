@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from '@/App.vue'
-import { store } from '@/store'
+import { createStore } from '@/store'
 import VueAnimXYZ from '@animxyz/vue3'
 import { setupI18n } from '@/i18n'
 import enUS from '@/locales/en-US.yml'
@@ -19,6 +19,7 @@ const i18n = setupI18n({
 })
 
 const app = createApp(App)
+const store = createStore(app)
 
 app.use(i18n)
 app.use(store)
@@ -33,10 +34,12 @@ if (typeof config !== 'undefined' && config.VUE_APP_WEBSOCKET_URL) {
 app.use(VueNativeSock, websocketUrl, {
   store: store,
   connectManually: true,
+  "reconnection": true,
+  "reconnectionAttempts": 10,
+  "reconnectionDelay": 3000,
   format: 'json',
 })
-
-window['CloudRain'] = app.mount('#app')
+app.mount('#app')
 
 export default {
   app
