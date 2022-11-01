@@ -31,7 +31,7 @@
     "node-sass": "^7.0.3",
     "pixi-ease": "^3.0.7",
     "pixi.js": "^6.5.3",
-    "sass": "^1.54.9",
+    "sass": "^1.55.0",
     "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
     "vue-native-websocket-vue3": "^3.1.6"
