@@ -30,7 +30,7 @@
     "eslint-plugin-vue": "^9.5.1",
     "node-sass": "^7.0.3",
     "pixi-ease": "^3.0.7",
-    "pixi.js": "^6.5.3",
+    "pixi.js": "^7.0.2",
     "sass": "^1.54.9",
     "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
